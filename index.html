@@ -1,0 +1,706 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VibeVolt | RAIL-URJA</title>
+<style>
+:root {
+  --bg:#f5f7fb; --white:#fff; --ink:#17243c;
+  --muted:#77849a; --green:#159c80; --mint:#e3f7ef;
+  --lav:#f0eaff; --peach:#fff0df; --blue:#e9f4ff;
+  --line:#e5eaf1; --shadow:0 10px 30px #23344c0b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+header{background:white;border-bottom:1px solid var(--line)}
+.head{max-width:1250px;margin:auto;padding:18px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:48px;height:48px;border-radius:15px;background:#5ac9a8;
+  color:white;display:grid;place-items:center;font-size:26px;font-weight:bold}
+.brand b{font-size:23px}.brand b span{color:var(--green)}
+.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav button{border:0;background:white;color:#69778c;border-radius:11px;
+  padding:10px 12px;font-size:13px}
+nav button.active,nav button:hover{background:var(--mint);color:#147a65}
+main{max-width:1250px;margin:auto;padding:24px}
+.crumb{display:flex;justify-content:space-between;gap:10px;
+  color:var(--muted);font-size:13px;margin-bottom:30px}
+.pill{background:var(--mint);color:#16876d;padding:7px 12px;border-radius:25px}
+.page{display:none}.page.active{display:block}
+.hero{padding:15px 0 30px}
+.eyebrow{font-size:12px;letter-spacing:2px;font-weight:800;color:#718099}
+h1{font-size:clamp(38px,5vw,64px);line-height:1.1;letter-spacing:-2px;margin:20px 0}
+h1 span{color:var(--green)}
+p{color:var(--muted);line-height:1.75}
+.hero p{font-size:18px;max-width:750px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}
+.btn{background:var(--green);color:white;border:0;border-radius:12px;
+  padding:13px 17px;font-weight:750}
+.btn.secondary{background:white;color:var(--ink);border:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.card{background:white;border:1px solid #e9edf3;border-radius:20px;
+  padding:22px;box-shadow:var(--shadow);min-width:0}
+.metric{grid-column:span 3;min-height:170px}
+.mint{background:linear-gradient(140deg,#fff,#ecfaf4)}
+.lav{background:linear-gradient(140deg,#fff,#f5f0ff)}
+.peach{background:linear-gradient(140deg,#fff,#fff5ea)}
+.blue{background:linear-gradient(140deg,#fff,#eef7ff)}
+.metric-head{display:flex;align-items:center;justify-content:space-between;
+  gap:8px;color:#69778c;font-size:13px}
+.bubble{width:35px;height:35px;border-radius:12px;background:#dff7ed;
+  display:grid;place-items:center;color:var(--green)}
+.metric strong{display:block;font-size:30px;margin:20px 0 7px;overflow-wrap:anywhere}
+.metric p{font-size:12px;margin:0}
+.wide{grid-column:span 8}.side{grid-column:span 4}
+.half{grid-column:span 6}.full{grid-column:span 12}
+h2{font-size:22px;margin:0 0 8px}
+.sub{font-size:13px;margin:0 0 18px}
+.chart{width:100%;height:190px;display:block}
+.notice,.info{padding:14px;border-radius:13px;margin:14px 0}
+.notice{background:#fff6e8;border:1px solid #f4e4c7;color:#8c7047}
+.info{background:#f0faf6;border:1px solid #d9f1e7;color:#397b68}
+.row{padding:14px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row small{display:block;color:var(--muted);margin-top:3px}
+.tag{display:inline-block;padding:5px 9px;border-radius:8px;
+  background:#fff1db;color:#9b783e;font-size:11px;font-weight:800}
+.track{padding:18px;background:#f5faf8;border:1px solid var(--line);
+  border-radius:17px;margin:15px 0}
+.track svg{width:100%;height:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{text-align:left;vertical-align:top;padding:11px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--green)}
+.tablewrap{overflow-x:auto}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
+input{width:100%;padding:12px;border:1px solid #dfe6ee;border-radius:10px}
+pre{white-space:pre;overflow:auto;max-height:650px;background:#101c2b;
+  color:#d7f2e7;border-radius:13px;padding:17px;font:12px/1.65 monospace}
+.codehead{display:flex;justify-content:space-between;align-items:center;
+  gap:10px;background:#1a2b3b;color:white;padding:12px;border-radius:12px 12px 0 0}
+.codehead button{background:#dff8ed;color:#146e58;border:0;border-radius:8px;padding:8px}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:950px){
+ .head{align-items:flex-start;flex-direction:column}
+ nav{flex-wrap:nowrap;overflow-x:auto;width:100%}
+ nav button{flex-shrink:0}
+ .metric{grid-column:span 6}
+ .wide,.side{grid-column:span 12}
+}
+@media(max-width:560px){
+ main{padding:14px}
+ .metric,.half{grid-column:span 12}
+ .card{padding:16px}
+ h1{letter-spacing:-1px}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="head">
+  <div class="brand">
+   <div class="logo">ϟ</div>
+   <div><b>Vibe<span>Volt</span></b>
+    <small>SMART RAIL ENERGY</small></div>
+  </div>
+  <nav id="nav">
+   <button class="active" data-page="home">⌂ Home</button>
+   <button data-page="dashboard">▥ Dashboard</button>
+   <button data-page="safety">⌁ Track Safety</button>
+   <button data-page="project">◇ Project</button>
+   <button data-page="connections">⚙ Connections</button>
+   <button data-page="arduino">⌘ Arduino Code</button>
+   <button data-page="wifi">⌁ Wi-Fi Setup</button>
+  </nav>
+ </div>
+</header>
+
+<main>
+ <div class="crumb">
+  <span>VibeVolt / <b id="crumb">Overview</b></span>
+  <span class="pill" id="appStatus">● App ready</span>
+ </div>
+
+ <!-- HOME -->
+ <section class="page active" id="home">
+  <div class="hero">
+   <div class="eyebrow">ENERGY INTELLIGENCE PLATFORM</div>
+   <h1>Powering the rails,<br><span>one vibration at a time.</span></h1>
+   <p>A smarter way to explore energy recovery from railway vibrations.</p>
+   <div class="actions">
+    <button class="btn" onclick="simulate()">ϟ &nbsp; Simulate train pass</button>
+    <button class="btn secondary" onclick="showPage('dashboard')">Open dashboard ↗</button>
+   </div>
+  </div>
+
+  <div class="grid">
+   <article class="card metric mint">
+    <div class="metric-head">Energy generated today <span class="bubble">ϟ</span></div>
+    <strong id="homeEnergy">— <small>mWh</small></strong>
+    <p id="energyCaption">Waiting for ESP32 measurements</p>
+   </article>
+   <article class="card metric lav">
+    <div class="metric-head">Peak voltage <span class="bubble">⌁</span></div>
+    <strong id="homeVoltage">— <small>V</small></strong>
+    <p>From the configured voltage sensor</p>
+   </article>
+   <article class="card metric peach">
+    <div class="metric-head">Train passes <span class="bubble">⇢</span></div>
+    <strong id="passes">0</strong>
+    <p>Visual simulation counter for this session</p>
+   </article>
+   <article class="card metric blue">
+    <div class="metric-head">System connection <span class="bubble">⌘</span></div>
+    <strong id="homeLink" style="font-size:25px">Not linked</strong>
+    <p id="homeLinkText">ESP32 connection not configured</p>
+   </article>
+
+   <article class="card wide">
+    <h2>Energy generation</h2>
+    <p class="sub">Live samples from the ESP32 when connected</p>
+    <canvas id="chart" class="chart"></canvas>
+    <p class="sub" id="chartNote">No live samples yet. Simulation does not create real energy readings.</p>
+   </article>
+   <article class="card side">
+    <h2>System overview</h2>
+    <p class="sub">Prototype monitoring</p>
+    <div class="row"><b>Piezoelectric plates</b><small>Energy harvesting element</small></div>
+    <div class="row"><b>ACS712</b><small>Current measurement</small></div>
+    <div class="row"><b>IR sensor</b><small>Obstacle detection</small></div>
+    <div class="row"><b>ESP32</b><small id="overviewLink">Waiting for connection</small></div>
+   </article>
+  </div>
+ </section>
+
+ <!-- DASHBOARD -->
+ <section class="page" id="dashboard">
+  <div class="eyebrow">LIVE MONITORING</div><h1>VibeVolt Dashboard</h1>
+  <p>Measurements appear after connecting the ESP32. Unavailable data is not replaced with fake readings.</p>
+  <div class="grid">
+   <article class="card metric mint"><div class="metric-head">Voltage</div><strong id="voltage">—</strong><p>Volts (V)</p></article>
+   <article class="card metric lav"><div class="metric-head">Current</div><strong id="current">—</strong><p>Amperes (A)</p></article>
+   <article class="card metric peach"><div class="metric-head">Power</div><strong id="power">—</strong><p>Watts (W)</p></article>
+   <article class="card metric blue"><div class="metric-head">Energy</div><strong id="energy">—</strong><p>Watt-hours (Wh)</p></article>
+   <article class="card half"><h2>Obstacle status</h2><strong id="obstacle">Unavailable</strong><p id="obstacleNote">Connect the IR sensor and ESP32.</p></article>
+   <article class="card half"><h2>Vibration status</h2><strong id="vibration">Unavailable</strong><p>Requires a safe conditioned piezo signal circuit.</p></article>
+   <article class="card half"><h2>Temperature</h2><strong id="temperature">Not configured</strong><p>Temperature sensor model is not yet known.</p></article>
+   <article class="card half"><h2>Connection</h2><p id="apiStatus">No ESP32 address set.</p><button class="btn" onclick="readData()">Refresh readings</button></article>
+  </div>
+  <div class="notice">Power is calculated from measured voltage and current. For pulsed piezo output, accurate harvested-energy measurement requires suitable measurement electronics and calibration.</div>
+ </section>
+
+ <!-- TRACK SAFETY -->
+ <section class="page" id="safety">
+  <div class="eyebrow">MONITORING MODULE</div>
+  <h1>Track <span style="color:var(--green)">safety.</span></h1>
+  <p>A monitoring interface for the model railway track.</p>
+  <span class="tag" id="safetyTag">SENSOR PENDING</span>
+  <article class="card" style="margin-top:20px">
+   <h2>Track monitoring status</h2>
+   <div class="track">
+    <svg viewBox="0 0 700 190" role="img" aria-label="Illustration of model train on railway tracks">
+     <rect x="10" y="20" width="680" height="150" rx="15" fill="#f9fcfb"/>
+     <g stroke="#93b2a8" stroke-width="7">
+      <path d="M20 55 H680"/><path d="M20 135 H680"/>
+     </g>
+     <g stroke="#c5d9d1" stroke-width="6">
+      <path d="M60 58 V132"/><path d="M130 58 V132"/><path d="M200 58 V132"/>
+      <path d="M270 58 V132"/><path d="M340 58 V132"/><path d="M410 58 V132"/>
+      <path d="M480 58 V132"/><path d="M550 58 V132"/><path d="M620 58 V132"/>
+     </g>
+     <g transform="translate(180 15)">
+      <rect x="0" y="0" width="48" height="38" rx="8" fill="#3c8ac4"/>
+      <rect x="7" y="7" width="14" height="12" rx="2" fill="#d8f2ff"/>
+      <rect x="27" y="7" width="14" height="12" rx="2" fill="#d8f2ff"/>
+      <rect x="7" y="24" width="34" height="7" rx="2" fill="#f4c98b"/>
+      <circle cx="10" cy="40" r="4" fill="#34495e"/><circle cx="38" cy="40" r="4" fill="#34495e"/>
+     </g>
+     <rect x="285" y="148" width="130" height="10" rx="5" fill="#54c7a0"/>
+     <text x="350" y="180" text-anchor="middle" font-size="12" fill="#718099">PRESSURE PLATE · CONCEPT VIEW</text>
+    </svg>
+   </div>
+   <div class="notice"><b id="safetyObstacle">Obstacle status unavailable</b><br>
+    The app cannot determine whether an object is ahead until a compatible sensor is connected and tested.</div>
+   <div class="row"><div><b>Obstacle sensor</b><small>IR module</small></div><span id="irState">Pending</span></div>
+   <div class="row"><div><b>ESP32 data link</b><small>Wi-Fi API connection</small></div><span id="irLink">Pending</span></div>
+  </article>
+ </section>
+
+ <!-- PROJECT -->
+ <section class="page" id="project">
+  <div class="eyebrow">SIL COMPETITION</div><h1>About RAIL-URJA</h1>
+  <div class="grid">
+   <article class="card half"><h2>Problem</h2><p>Railway movement creates vibrations. Our model explores whether part of that mechanical energy can be converted into useful electrical energy.</p></article>
+   <article class="card half"><h2>Solution</h2><p>Piezoelectric plates generate electrical charge under mechanical stress. The output needs conditioning and safe storage.</p></article>
+   <article class="card half"><h2>Smart monitoring</h2><p>The ESP32 reads compatible sensors and provides data over Wi-Fi to the VibeVolt dashboard.</p></article>
+   <article class="card half"><h2>Possible applications</h2><p>After testing, harvested energy may support small low-power demonstrations or sensing circuits. Actual output depends on measured results.</p></article>
+   <article class="card full"><h2>How it works</h2>
+    <ol>
+     <li>Train movement creates pressure or vibration.</li>
+     <li>Piezoelectric plates generate an electrical signal.</li>
+     <li>A suitable rectifier and energy-harvesting circuit condition the signal.</li>
+     <li>A suitable storage circuit stores the energy safely.</li>
+     <li>The ESP32 sends sensor readings to VibeVolt over Wi-Fi.</li>
+    </ol>
+    <div class="info"><b>Team:</b> VibeVolt · Salwan Public School · Class VII<br><b>Project:</b> RAIL-URJA — Smart Rail Electricity Generation</div>
+   </article>
+  </div>
+ </section>
+
+ <!-- CONNECTIONS -->
+ <section class="page" id="connections">
+  <div class="eyebrow">HARDWARE GUIDE</div><h1>Connections & wiring</h1>
+  <p>The following GPIO assignments are examples, not confirmed existing wiring. Verify the actual module pin labels before connecting power.</p>
+  <div class="notice"><b>Safety:</b> Never connect a piezo disc directly to an ESP32 GPIO. Never feed 5 V directly into an ESP32 GPIO input.</div>
+  <article class="card">
+   <h2>Provisional pin map</h2>
+   <div class="tablewrap"><table>
+    <thead><tr><th>Component</th><th>Signal</th><th>Example pin</th><th>Unknown to verify</th></tr></thead>
+    <tbody>
+     <tr><td>ACS712</td><td>OUT</td><td>GPIO 34</td><td>ACS712 version, supply and zero-current calibration.</td></tr>
+     <tr><td>Voltage measurement circuit</td><td>OUT</td><td>GPIO 35</td><td>Separate voltage sensor/divider and its calibration ratio.</td></tr>
+     <tr><td>IR sensor</td><td>OUT</td><td>GPIO 27</td><td>Output polarity and safe logic voltage.</td></tr>
+     <tr><td>Conditioned piezo circuit</td><td>Signal</td><td>GPIO 32</td><td>Protection/conditioning circuit is not confirmed.</td></tr>
+     <tr><td>Temperature sensor</td><td>Unknown</td><td>Not assigned</td><td>Exact sensor model and pinout.</td></tr>
+     <tr><td>Wi-Fi router</td><td>Wireless</td><td>No GPIO</td><td>SSID/password; same-network access.</td></tr>
+    </tbody>
+   </table></div>
+  </article>
+  <article class="card" style="margin-top:16px">
+   <h2>Power and ground</h2>
+   <ul>
+    <li>Use the supply voltage specified for each sensor module.</li>
+    <li>Connect grounds together where required by the sensor circuit's design.</li>
+    <li>GPIO 34 and 35 are input-only pins on the ESP32.</li>
+    <li>The ACS712 measures current only. A separate suitable voltage measurement circuit is needed to measure voltage.</li>
+    <li>Keep the piezo/storage circuit separate from ESP32 pins unless a designed, protected measurement interface is used.</li>
+   </ul>
+  </article>
+ </section>
+
+ <!-- ARDUINO CODE -->
+ <section class="page" id="arduino">
+  <div class="eyebrow">ARDUINO IDE · ESP32-WROVER-IE</div><h1>Arduino Code</h1>
+  <p>Firmware for the VibeVolt dashboard API. The code reports temperature as unavailable and does not enable piezo input until its safe signal circuit is confirmed.</p>
+  <div class="notice"><b>Before uploading:</b> Set your Wi-Fi credentials and verify the GPIO map, ACS712 version, voltage-sensor circuit and calibration. This code cannot guarantee calibrated readings until those hardware details are confirmed.</div>
+  <div class="actions"><button class="btn" onclick="copyCode()">Copy Arduino firmware</button></div>
+  <div class="codehead"><span>rail_urja_esp32.ino</span><button onclick="copyCode()">Copy code</button></div>
+  <pre id="firmware">#include &lt;WiFi.h&gt;
+#include &lt;WebServer.h&gt;
+
+// RAIL-URJA / VibeVolt firmware for ESP32-WROVER-IE
+// GPIO choices are provisional. Verify the actual wiring.
+
+const char* WIFI_SSID = "YOUR_WIFI_NAME";
+const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
+
+constexpr int PIN_ACS712 = 34;
+constexpr int PIN_VOLTAGE = 35;
+constexpr int PIN_IR = 27;
+constexpr int PIN_PIEZO_CONDITIONED = 32;
+
+// Select the correct sensitivity for your ACS712 version:
+// 5A: approx 0.185 V/A; 20A: approx 0.100 V/A;
+// 30A: approx 0.066 V/A.
+constexpr float ACS_SENSITIVITY = 0.100f;
+
+// Example only. Calibrate for your actual voltage circuit.
+constexpr float VOLTAGE_RATIO = 5.0f;
+
+// Verify whether your IR output goes LOW or HIGH on detection.
+constexpr bool IR_ACTIVE_LOW = true;
+
+// Keep false until a protected, conditioned piezo signal
+// circuit has been installed and verified.
+constexpr bool PIEZO_CIRCUIT_CONFIRMED = false;
+
+WebServer server(80);
+
+float voltageV = 0;
+float currentA = 0;
+float powerW = 0;
+float energyWh = 0;
+bool obstacle = false;
+bool vibration = false;
+unsigned long lastSampleMs = 0;
+
+float adcVolts(int pin) {
+  return analogRead(pin) * (3.3f / 4095.0f);
+}
+
+float readCurrentAmps() {
+  float total = 0;
+  const int samples = 100;
+
+  for (int i = 0; i &lt; samples; i++) {
+    total += adcVolts(PIN_ACS712);
+    delayMicroseconds(200);
+  }
+
+  float averageV = total / samples;
+
+  // Must be measured with zero current flowing.
+  // 2.5 V is only an assumption, not calibration.
+  const float zeroCurrentV = 2.5f;
+
+  return (averageV - zeroCurrentV) / ACS_SENSITIVITY;
+}
+
+void sampleSensors() {
+  unsigned long now = millis();
+
+  if (lastSampleMs == 0) {
+    lastSampleMs = now;
+    return;
+  }
+
+  unsigned long elapsed = now - lastSampleMs;
+  if (elapsed &lt; 250) return;
+  lastSampleMs = now;
+
+  // Requires a suitable voltage measurement circuit on GPIO 35.
+  voltageV = adcVolts(PIN_VOLTAGE) * VOLTAGE_RATIO;
+  currentA = readCurrentAmps();
+
+  // Approximation for a suitable DC output measurement.
+  powerW = voltageV * currentA;
+
+  obstacle = (digitalRead(PIN_IR) ==
+              (IR_ACTIVE_LOW ? LOW : HIGH));
+
+  // Never connect a raw piezo disc directly to GPIO.
+  if (PIEZO_CIRCUIT_CONFIRMED) {
+    vibration = analogRead(PIN_PIEZO_CONDITIONED) &gt; 500;
+  } else {
+    vibration = false;
+  }
+
+  // Approximate energy integration in watt-hours.
+  // Accuracy depends on proper voltage/current measurement.
+  energyWh += powerW * (elapsed / 3600000.0f);
+}
+
+void sendReadings() {
+  sampleSensors();
+
+  String json = "{";
+  json += "\\"voltage\\":" + String(voltageV, 3) + ",";
+  json += "\\"current\\":" + String(currentA, 3) + ",";
+  json += "\\"power\\":" + String(powerW, 3) + ",";
+  json += "\\"temperature\\":null,";
+  json += "\\"energy\\":" + String(energyWh, 6) + ",";
+  json += "\\"vibration\\":";
+  json += vibration ? "true" : "false";
+  json += ",";
+  json += "\\"obstacle\\":";
+  json += obstacle ? "true" : "false";
+  json += "}";
+
+  server.sendHeader("Access-Control-Allow-Origin", "*");
+  server.sendHeader("Cache-Control", "no-store");
+  server.send(200, "application/json", json);
+}
+
+void handleOptions() {
+  server.sendHeader("Access-Control-Allow-Origin", "*");
+  server.sendHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  server.sendHeader("Access-Control-Allow-Headers", "Content-Type");
+  server.send(204);
+}
+
+void setup() {
+  Serial.begin(115200);
+  analogReadResolution(12);
+  pinMode(PIN_IR, INPUT);
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+
+  Serial.print("Connecting to Wi-Fi");
+  unsigned long start = millis();
+
+  while (WiFi.status() != WL_CONNECTED &amp;&amp;
+         millis() - start &lt; 20000) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println();
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("Wi-Fi connected");
+    Serial.print("ESP32 IP: ");
+    Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("Wi-Fi connection failed.");
+    Serial.println("Check credentials and restart.");
+  }
+
+  server.on("/", HTTP_GET, []() {
+    server.send(200, "text/plain",
+      "RAIL-URJA VibeVolt is online. Use /api/readings");
+  });
+
+  server.on("/api/readings", HTTP_GET, sendReadings);
+  server.on("/api/readings", HTTP_OPTIONS, handleOptions);
+  server.begin();
+
+  Serial.println("HTTP server started");
+}
+
+void loop() {
+  server.handleClient();
+}</pre>
+  <div class="info">Dashboard endpoint: <code>/api/readings</code>. JSON fields match the VibeVolt dashboard. Temperature remains null until the sensor is identified.</div>
+ </section>
+
+ <!-- WIFI -->
+ <section class="page" id="wifi">
+  <div class="eyebrow">NETWORK SETUP</div><h1>Connect ESP32 to Wi-Fi</h1>
+  <div class="grid">
+   <article class="card half">
+    <h2>Step 1 · Configure Arduino</h2>
+    <p>In the Arduino Code section, replace these two values with your router's credentials:</p>
+    <pre>const char* WIFI_SSID = "YOUR_WIFI_NAME";
+const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";</pre>
+    <p>Keep your password private. Do not put it in the public website code.</p>
+   </article>
+   <article class="card half">
+    <h2>Step 2 · Upload firmware</h2>
+    <ol>
+     <li>Install Arduino IDE and the ESP32 board package by Espressif Systems.</li>
+     <li>Select the correct ESP32 board and port.</li>
+     <li>Upload the sketch.</li>
+     <li>Open Serial Monitor at <b>115200 baud</b>.</li>
+     <li>Read the printed ESP32 IP address.</li>
+    </ol>
+   </article>
+   <article class="card full">
+    <h2>Step 3 · Link the dashboard</h2>
+    <p>Your laptop and ESP32 should be connected to the same router network. Enter the ESP32 IP address below.</p>
+    <label for="espIP">ESP32 IP address</label>
+    <input id="espIP" placeholder="Example: 192.168.1.50" autocomplete="url">
+    <div class="actions">
+     <button class="btn" onclick="setAddress()">Save address</button>
+     <button class="btn secondary" onclick="testConnection()">Test connection</button>
+    </div>
+    <p id="wifiMessage">No ESP32 address configured.</p>
+   </article>
+  </div>
+  <div class="notice"><b>Browser note:</b> If this app is hosted over HTTPS, your browser may block requests to an HTTP address on the local network. If that happens, try a local copy of the app or configure a suitable secure connection. Guest Wi-Fi may also block device-to-device communication.</div>
+ </section>
+</main>
+
+<footer>
+ <b>RAIL-URJA · VibeVolt</b><br>
+ Smart Railway Vibration Energy Harvesting · Class VII<br>
+ Educational prototype · Confirm hardware and calibrate measurements before presenting live results.
+</footer>
+
+<script>
+let espAddress = "";
+let passCount = 0;
+let latestVoltage = null;
+let energySamples = [];
+
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  const btn = document.querySelector('nav button[data-page="' + id + '"]');
+  if (btn) btn.classList.add("active");
+
+  const names = {
+    home:"Overview",dashboard:"Dashboard",safety:"Track Safety",
+    project:"Project",connections:"Connections",arduino:"Arduino Code",
+    wifi:"Wi-Fi Setup"
+  };
+  document.getElementById("crumb").textContent = names[id] || id;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("nav button").forEach(b =>
+  b.addEventListener("click", () => showPage(b.dataset.page))
+);
+
+function simulate() {
+  passCount++;
+  document.getElementById("passes").textContent = passCount;
+  document.getElementById("chartNote").textContent =
+    "Train pass animation counted. This simulation does not create real energy measurements.";
+}
+
+function copyCode() {
+  const code = document.getElementById("firmware").textContent;
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(code)
+      .then(() => alert("Arduino firmware copied."))
+      .catch(() => fallbackCopy(code));
+  } else {
+    fallbackCopy(code);
+  }
+}
+function fallbackCopy(text) {
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.style.position = "fixed";
+  area.style.opacity = "0";
+  document.body.appendChild(area);
+  area.select();
+  try {
+    document.execCommand("copy");
+    alert("Code copied. Paste it into Arduino IDE.");
+  } catch (e) {
+    alert("Please select and copy the code manually.");
+  }
+  area.remove();
+}
+
+function setAddress() {
+  let value = document.getElementById("espIP").value.trim();
+  if (!value) {
+    document.getElementById("wifiMessage").textContent = "Enter the ESP32 IP address first.";
+    return;
+  }
+  if (!/^https?:\/\//i.test(value)) value = "http://" + value;
+  try {
+    espAddress = new URL(value).origin.replace(/\/+$/,"");
+    document.getElementById("wifiMessage").textContent =
+      "Address saved: " + espAddress + ". Select Test connection.";
+  } catch(e) {
+    document.getElementById("wifiMessage").textContent =
+      "Invalid address. Enter an IP such as 192.168.1.50.";
+  }
+}
+
+async function testConnection() {
+  if (!espAddress) setAddress();
+  if (!espAddress) return;
+  await readData();
+}
+
+function displayLink(connected) {
+  document.getElementById("appStatus").textContent =
+    connected ? "● ESP32 connected" : "● App ready";
+  document.getElementById("homeLink").textContent =
+    connected ? "Linked" : "Not linked";
+  document.getElementById("homeLinkText").textContent =
+    connected ? "Receiving ESP32 data" : "ESP32 connection not active";
+  document.getElementById("overviewLink").textContent =
+    connected ? "Connected over Wi-Fi" : "Waiting for connection";
+  document.getElementById("irLink").textContent =
+    connected ? "Connected" : "Pending";
+}
+
+async function readData() {
+  if (!espAddress) {
+    document.getElementById("apiStatus").textContent =
+      "Enter the ESP32 IP address in Wi-Fi Setup.";
+    document.getElementById("wifiMessage").textContent =
+      "No address configured. Enter the IP printed in Serial Monitor.";
+    return;
+  }
+
+  try {
+    const response = await fetch(espAddress + "/api/readings", {cache:"no-store"});
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    const d = await response.json();
+
+    const number = (v, digits=3) =>
+      v !== null && v !== undefined && Number.isFinite(Number(v))
+        ? Number(v).toFixed(digits) : "—";
+
+    document.getElementById("voltage").textContent = number(d.voltage) + " V";
+    document.getElementById("current").textContent = number(d.current) + " A";
+    document.getElementById("power").textContent = number(d.power) + " W";
+    document.getElementById("energy").textContent = number(d.energy,6) + " Wh";
+
+    document.getElementById("homeEnergy").innerHTML =
+      d.energy != null ? (Number(d.energy)*1000).toFixed(3) + ' <small>mWh</small>'
+      : '— <small>mWh</small>';
+    document.getElementById("energyCaption").textContent = "ESP32 reported energy";
+    document.getElementById("homeVoltage").innerHTML =
+      number(d.voltage) + ' <small>V</small>';
+
+    document.getElementById("obstacle").textContent =
+      d.obstacle === true ? "DETECTED" :
+      d.obstacle === false ? "CLEAR" : "Unavailable";
+    document.getElementById("obstacleNote").textContent =
+      d.obstacle === true ? "IR sensor reports an obstacle." :
+      d.obstacle === false ? "IR sensor reports no obstacle." :
+      "Obstacle state unavailable.";
+
+    document.getElementById("vibration").textContent =
+      d.vibration === true ? "DETECTED" :
+      d.vibration === false ? "NOT DETECTED" : "Unavailable";
+
+    document.getElementById("temperature").textContent =
+      d.temperature == null ? "Not configured" : number(d.temperature) + " °C";
+
+    document.getElementById("safetyObstacle").textContent =
+      d.obstacle === true ? "Obstacle detected" :
+      d.obstacle === false ? "No obstacle detected" : "Obstacle status unavailable";
+    document.getElementById("irState").textContent =
+      d.obstacle == null ? "Unknown" : "Reading received";
+    document.getElementById("apiStatus").textContent =
+      "Connected: " + espAddress + "/api/readings";
+    document.getElementById("wifiMessage").textContent = "Connection successful.";
+    displayLink(true);
+
+    if (d.energy != null) {
+      energySamples.push(Number(d.energy));
+      if (energySamples.length > 24) energySamples.shift();
+      drawChart();
+    }
+  } catch (e) {
+    displayLink(false);
+    document.getElementById("apiStatus").textContent =
+      "Could not reach ESP32: " + e.message;
+    document.getElementById("wifiMessage").textContent =
+      "Connection failed. Check the IP, Wi-Fi network, firmware and browser restrictions.";
+  }
+}
+
+function drawChart() {
+  const canvas = document.getElementById("chart");
+  const rect = canvas.getBoundingClientRect();
+  if (!rect.width) return;
+  const ratio = window.devicePixelRatio || 1;
+  canvas.width = rect.width * ratio;
+  canvas.height = 190 * ratio;
+  const ctx = canvas.getContext("2d");
+  ctx.scale(ratio,ratio);
+  const w = rect.width, h = 190;
+  ctx.clearRect(0,0,w,h);
+  ctx.strokeStyle = "#e8edf2";
+  ctx.lineWidth = 1;
+  for (let i=1;i<=4;i++) {
+    const y = i*h/5;
+    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();
+  }
+  if (energySamples.length < 2) return;
+  const min = Math.min(...energySamples);
+  const max = Math.max(...energySamples);
+  const span = max-min || 1;
+  ctx.strokeStyle = "#159c80";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  energySamples.forEach((v,i)=>{
+    const x = 8 + i*(w-16)/(energySamples.length-1);
+    const y = h-12-((v-min)/span)*(h-28);
+    if (i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+}
+window.addEventListener("resize",drawChart);
+drawChart();
+setInterval(()=>{if(espAddress) readData();},5000);
+</script>
+</body>
+</html>
